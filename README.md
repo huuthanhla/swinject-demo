@@ -9,12 +9,12 @@
 Ok, khá là blah blah blah.....
 Đập vào mắt là cả một mớ khái niệm có vẻ rắc rối. Tuy nhiên, có thể thấy mục đích của Swinject là để giải quyết một vấn đề khá cơ bản trong thiết kế lập trình hướng đối tượng, đó là sự phụ thuộc (coupling) giữa các module. Vậy để hiểu và áp dụng được Swinject, ta sẽ phải tua qua các nội dung sau:
 
-1. **_Coupling và lý do phải Decoupling_**
-2. **_Dependency Injection (DI) - Dependency Inversion Principle (DIP) - Inverse of Control (IoC)_**
-3. **_Cách sử dụng Dependency Injection trong Swinject._**
+1. **_Ví dụ về Coupling Components._**
+2. **_Dependency Injection (DI) - Dependency Inversion Principle (DIP) - Inverse of Control (IoC)._**
+3. **_Cơ bản về Swinject._**
 4. **_Generic type system & First class functions._**
 
-# 2. Coupling và lý do phải Decoupling
+# 2. Ví dụ về Coupling Components
 Trước hết lấy một ví dụ khá ngô nghê về việc xử lý thanh toán online trên web shopping (Thực tế thì tôi cũng không biết nó được implement thế nào :D).
 
 Ta có class `CreditCard` đại diện cho phương thức thanh toán qua thẻ tín dụng.
@@ -38,7 +38,7 @@ class Order {
     let payment = CreditCard(currency: "VNĐ")
 
     func confirmPayment() -> String {
-        return "Your order will be paid in \(payment.currency) with \(payment.description)!"
+        return "Your order will be paid in \(payment.currency) with \(payment.description())!"
     }
 }
 ```
@@ -61,7 +61,7 @@ class Order {
     }
 
     func confirmPayment() -> String {
-        return "Your order will be paid in \(payment.currency) with \(payment.description)!"
+        return "Your order will be paid in \(payment.currency) with \(payment.description())!"
     }
 }
 ```
@@ -126,7 +126,7 @@ class Order {
     }
 
     func confirmPayment() -> String {
-        return "Your order will be paid in \(payment.currency) with \(payment.description)!"
+        return "Your order will be paid in \(payment.currency) with \(payment.description())!"
     }
 }
 ```
@@ -155,3 +155,47 @@ Ok, tóm tắt lại ta có 3 keyword nghe thật to tát: **Dependency Injectio
 - DIP giải quyết việc Decoupling thông qua việc chia sẻ lớp Abstract chung.
 - IoC thì giống với Tuyển dụng ý: Bạn không cần phải gọi cho tôi, tôi sẽ gọi cho bạn! [Link](https://en.wikipedia.org/wiki/Inversion_of_control#Overview)
 
+# 3. Cơ bản về Swinject
+### Cách cài đặt bằng CocoaPods
+Tạo file `Podfile` trong thư mục gốc của project, hoặc sửa lại nếu đã có như sau:
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0' # or platform :osx, '10.10' if your target is OS X.
+use_frameworks!
+
+pod 'Swinject', '~> 2.1.0'
+
+# Uncomment if you use SwinjectStoryboard
+# pod 'SwinjectStoryboard', '~> 1.0.0'
+```
+Sau đó chạy lệnh `pod install`. Chi tiết bạn tham khảo tại [CocoaPods](https://cocoapods.org/)
+
+### Show me the code!
+...Okay, download [source code](https://github.com/muzix/swinject-demo/releases) hoặc [clone project](https://github.com/muzix/swinject-demo) về.
+
+First step!
+```ruby
+cd swinject-demo
+pod install
+```
+
+Tiếp theo... Build, sau đó mở file MyPlayground.playground.
+
+Cách sử dụng Swinject rất đơn giản. Sau khi khởi tạo Container (chính là cái IoC container đó đó), ta đăng ký với Container một class kèm theo một closure chứa code khởi tạo object từ Class đó.
+```swift
+let container = Container()
+container.register(IPayment.self) { _ in Bitcoin() }
+```
+Tương tự như vậy với class Order
+```swift
+container.register(Order.self) { r in
+    Order(payment: r.resolve(IPayment.self)!)
+}
+```
+Chú ý ở điểm đặc biệt ở đây, khi khởi tạo Order, ta giao cho Resolver của Swinject tự động chọn ra denpendency phù hợp với giao thức IPayment
+
+Cuối cùng, để tạo một Order ta chỉ cần làm thế này:
+```swift
+let swinjectOrder = container.resolve(Order.self)
+print(swinjectOrder.confirmPayment()) // Output: Your order will be paid in BTC with Bitcoin!
+```

@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  swinject-demo
+
+  Created by Ominext Mobile's on 8/30/17.
+  Copyright © 2017 Ominext. All rights reserved.
+*/
+
+/* Error description */
+"NetworkError_ConnectionLost" = "NetworkError_ConnectionLost";
+
+/* Error description */
+"NetworkError_IncorrectDataReturned" = "NetworkError_IncorrectDataReturned";
+
+/* Error description */
+"NetworkError_InternationalRoamingOff" = "NetworkError_InternationalRoamingOff";
+
+/* Error description */
+"NetworkError_NotConnectedToInternet" = "NetworkError_NotConnectedToInternet";
+
+/* Error description */
+"NetworkError_NotReachedServer" = "NetworkError_NotReachedServer";
+
+/* Error description */
+"NetworkError_Unknown" = "NetworkError_Unknown";

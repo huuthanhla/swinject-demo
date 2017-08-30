@@ -2,8 +2,57 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0' # or platform :osx, '10.10' if your target is OS X.
 use_frameworks!
 
+def testing_pods
+    pod 'ReactiveSwift', '~> 2.0'
+    pod 'Quick'
+    pod 'Nimble'
+end
+
+def mvvm_pods
+    pod 'Alamofire', '~> 4.4'
+    pod 'AlamofireImage'
+    pod 'Himotoki'
+    pod 'ReactiveSwift', '~> 2.0'
+end
+
 target 'swinject-demo' do
 	pod 'Swinject', '~> 2.1.0'
+    pod 'SwinjectStoryboard'
 end
-# Uncomment if you use SwinjectStoryboard
-# pod 'SwinjectStoryboard', '~> 1.0.0'
+
+target 'DemoModel' do
+    mvvm_pods
+end
+
+target 'DemoViewModel' do
+    mvvm_pods
+end
+
+target 'DemoView' do
+    mvvm_pods
+end
+
+target 'DemoModelTests' do
+    testing_pods
+end
+
+target 'DemoViewModelTests' do
+    testing_pods
+end
+
+target 'DemoViewTests' do
+    testing_pods
+end
+
+target 'swinject-demoTests' do
+    inherit! :search_paths
+    pod 'Swinject', '~> 2.1.0'
+    pod 'SwinjectStoryboard'
+    testing_pods
+end
+
+target 'swinject-demoUITests' do
+    inherit! :search_paths
+    testing_pods
+end
+

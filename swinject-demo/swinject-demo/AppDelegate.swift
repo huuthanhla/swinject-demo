@@ -6,16 +6,45 @@
 //  Copyright © 2017 Ominext. All rights reserved.
 //
 
+import Foundation
 import UIKit
+import Swinject
+import SwinjectStoryboard
+import DemoModel
+import DemoViewModel
+import DemoView
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let container = Container() { container in
+        // Models
+        container.register(Networking.self) { _ in Network() }
+        container.register(IMarket.self) { r in Market(network: r.resolve(Networking.self)!) }
+        
+        // View models
+        container.register(IMarketTableViewModel.self) { r
+            in MarketTableViewModel(market: r.resolve(IMarket.self)!)
+        }
+        
+        // Views
+        container.storyboardInitCompleted(MarketTableViewController.self) { r, c in
+            c.viewModel = r.resolve(IMarketTableViewModel.self)
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.backgroundColor = UIColor.white
+        window.makeKeyAndVisible()
+        self.window = window
+        
+        let bundle = Bundle(for: MarketTableViewController.self)
+        let storyboard = SwinjectStoryboard.create(name: "Main", bundle: bundle, container: self.container)
+        window.rootViewController = storyboard.instantiateInitialViewController()
+
         return true
     }
 

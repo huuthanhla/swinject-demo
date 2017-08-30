@@ -3,51 +3,59 @@
 import UIKit
 import Swinject
 
-var str = "Hello, playground"
-
-protocol Animal {
-    var name: String? { get }
+protocol IPayment {
+    var currency: String { get }
+    func description() -> String
 }
 
-class Cat: Animal {
-    let name: String?
-    init(name: String?) {
-        self.name = name
-    }
-}
-
-class Dog: Animal {
-    let name: String?
-    init(name: String?, nickName: String?) {
-        let fullName = (name ?? "unknown ") + " " + (nickName ?? "the mighty")
-        self.name = "Chip \(fullName)"
-    }
-}
-
-protocol Person {
-    func play()
-}
-
-class PetOwner: Person {
-    let pet: Animal
+class CreditCard: IPayment {
+    let currency: String
     
-    init(pet: Animal) {
-        self.pet = pet
+    init(currency: String) {
+        self.currency = currency
     }
     
-    func play() {
-        let name = pet.name ?? "someone"
-        print("I'm playing with \(name).")
+    func description() -> String {
+        return "Visa/Master Credit Card"
     }
 }
 
+class Bitcoin: IPayment {
+    let currency: String = "BTC"
+    
+    func description() -> String {
+        return "Bitcoin"
+    }
+}
+
+class Order {
+    let payment: IPayment
+    
+    init(payment: IPayment) {
+        self.payment = payment
+    }
+    
+    func confirmPayment() -> String {
+        return "Your order will be paid in \(payment.currency) with \(payment.description())!"
+    }
+}
+
+
+// MARK: - WITHOUT SWINJECT
+let creditCard = CreditCard(currency: "JPY")
+let orderOne = Order(payment: creditCard)
+print(orderOne.confirmPayment())
+
+let bitcoin = Bitcoin()
+let orderTwo = Order(payment: bitcoin)
+print(orderTwo.confirmPayment())
+
+// MARK: - WITH SWINJECT
 let container = Container()
-container.register(Animal.self) { _, name in Cat(name: name) }
-container.register(Animal.self) { _, name, nickName in Dog(name: name, nickName: nickName) }
-//container.register(Animal.self) { _ in Cat(name: "Cat the moon") }
-container.register(Person.self) { r in
-    PetOwner(pet: r.resolve(Animal.self)!)
+container.register(IPayment.self) { _ in Bitcoin() }
+container.register(Order.self) { r in
+    Order(payment: r.resolve(IPayment.self)!)
 }
 
-let person = container.resolve(Person.self)!
-person.play()
+let swinjectOrder = container.resolve(Order.self)!
+print(swinjectOrder.confirmPayment())

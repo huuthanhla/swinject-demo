@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="08h-CP-7ZB">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Bittrex Markets-->
+        <scene sceneID="0dx-Yu-0Nq">
+            <objects>
+                <tableViewController storyboardIdentifier="MarketTableViewController" id="szu-bc-Zo6" customClass="MarketTableViewController" customModule="DemoView" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="NTg-fd-yBf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MarketTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="MarketTableViewCell" id="IpO-Ci-izG" customClass="MarketTableViewCell" customModule="DemoView" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IpO-Ci-izG" id="zSu-Oo-q4K">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Bp-we-8Wh">
+                                            <rect key="frame" x="12" y="3" width="49" height="37"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="DTN-G0-caa"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7If-Dm-6nx">
+                                            <rect key="frame" x="73" y="12" width="287" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="fXV-e2-dMR"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7If-Dm-6nx" firstAttribute="leading" secondItem="7Bp-we-8Wh" secondAttribute="trailing" constant="12" id="7zd-Ly-nNH"/>
+                                        <constraint firstItem="7Bp-we-8Wh" firstAttribute="leading" secondItem="zSu-Oo-q4K" secondAttribute="leading" constant="12" id="Zhd-Kq-62C"/>
+                                        <constraint firstAttribute="bottom" secondItem="7Bp-we-8Wh" secondAttribute="bottom" constant="3" id="dcU-VI-VGX"/>
+                                        <constraint firstItem="7Bp-we-8Wh" firstAttribute="top" secondItem="zSu-Oo-q4K" secondAttribute="top" constant="3" id="lTT-H6-7zP"/>
+                                        <constraint firstItem="7If-Dm-6nx" firstAttribute="centerY" secondItem="zSu-Oo-q4K" secondAttribute="centerY" id="nO7-r7-uum"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="7If-Dm-6nx" secondAttribute="trailing" constant="7" id="xfU-y1-PC2"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="imgLogo" destination="7Bp-we-8Wh" id="G8U-Bv-j7E"/>
+                                    <outlet property="lblMarketName" destination="7If-Dm-6nx" id="d1M-EQ-z30"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="szu-bc-Zo6" id="XzS-Fh-gZd"/>
+                            <outlet property="delegate" destination="szu-bc-Zo6" id="3lp-GG-Z6M"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Bittrex Markets" id="4qK-JS-pw5"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5i2-pg-650" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="152.80000000000001" y="-258.62068965517244"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VD2-1V-Vfb">
+            <objects>
+                <navigationController id="08h-CP-7ZB" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2E0-FS-nbN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="szu-bc-Zo6" kind="relationship" relationship="rootViewController" id="DUs-wB-pXz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KrG-Wg-IF7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-799" y="-258"/>
+        </scene>
+    </scenes>
+</document>
