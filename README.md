@@ -12,7 +12,7 @@ Ok, khá là blah blah blah.....
 1. **_Ví dụ về Coupling Components._**
 2. **_Dependency Injection (DI) - Dependency Inversion Principle (DIP) - Inverse of Control (IoC)._**
 3. **_Cơ bản về Swinject._**
-4. **_Generic type system & First class functions._**
+4. **_Ứng dụng Swinject trong kiến trúc MVVM._**
 
 # 2. Ví dụ về Coupling Components
 Trước hết lấy một ví dụ khá ngô nghê về việc xử lý thanh toán online trên web shopping (Thực tế thì tôi cũng không biết nó được implement thế nào :D).
@@ -199,3 +199,47 @@ Cuối cùng, để tạo một Order ta chỉ cần làm thế này:
 let swinjectOrder = container.resolve(Order.self)
 print(swinjectOrder.confirmPayment()) // Output: Your order will be paid in BTC with Bitcoin!
 ```
+
+### Sử dụng SwinjectStoryboard
+SwinjectStoryboard là một extension của Swinject. Tác dụng của nó là cho phép chúng ta inject dependency của các ViewController khi storyboard được khởi tạo. Ví dụ: inject ViewModel dependency vào ViewController
+
+Cách sử dụng theo kiều tường minh là dễ hiểu nhất (Code này lấy trong Project demo)
+```swift
+// View models
+container.register(IMarketTableViewModel.self) { r
+    in MarketTableViewModel(market: r.resolve(IMarket.self)!)
+}
+
+// Views
+container.storyboardInitCompleted(MarketTableViewController.self) { r, c in
+    c.viewModel = r.resolve(IMarketTableViewModel.self)
+}
+
+let bundle = Bundle(for: MarketTableViewController.self)
+let storyboard = SwinjectStoryboard.create(name: "Main", bundle: bundle, container: self.container)
+window.rootViewController = storyboard.instantiateInitialViewController()
+```
+
+Theo kiểu không tường minh
+```swift
+extension SwinjectStoryboard {
+    @objc class func setup() {
+        defaultContainer.storyboardInitCompleted(MarketTableViewController.self) { r, c in
+            c.viewModel = r.resolve(IMarketTableViewModel.self)
+        }
+        defaultContainer.register(IMarketTableViewModel.self) { r
+            in MarketTableViewModel(market: r.resolve(IMarket.self)!)
+        }
+    }
+}
+```
+Theo kiểu này, khi Initial View Controller được hệ thống khởi tạo, dependency đã đăng ký với defaultContainer sẽ được inject.
+
+# 4. Ứng dụng Swinject trong kiến trúc MVVM
+Sau khi tham khảo từ [một loạt bài hướng dẫn](https://yoichitgy.github.io) của chính tác giả của thư viện Swinject, cũng như project mẫu, mình đã implement lại một project demo có sử dụng Swinject và kiến trúc MVVM. Mọi người có thể [download](https://github.com/muzix/swinject-demo/releases) hoặc [clone project](https://github.com/muzix/swinject-demo) về để xem.
+
+Dependency trong kiến trúc MVVM nó đại khái như thế này:
+
+`ViewControler (View) ----> ViewModel ----> Model ----> Network
+
+Nhiệm vụ của chúng ta chỉ là sử dụng Swinject Container để khai báo các Dependency và lắp ghép lại thôi. Giống xếp hình lego ý mà!
