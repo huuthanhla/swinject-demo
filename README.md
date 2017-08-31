@@ -79,7 +79,7 @@ Vậy là ta đã giải quyết được một phần vấn đề Coupling, v�
 Và đây là lúc ta sẽ áp dụng nguyên lý Dependency Inversion (DIP) để giải quyết vấn đề này.
 
 ### Dependency Inversion Principle (DIP)
-Dependency Inversion là nguyên lý thứ 4 trong [bộ 5 nguyên lý thiết kế phần mềm](https://en.wikipedia.org/wiki/Dependency_inversion_principle) - viết tắt là **SOLID**
+Dependency Inversion là nguyên lý thứ 5 trong [bộ 5 nguyên lý thiết kế phần mềm](https://en.wikipedia.org/wiki/Dependency_inversion_principle) - viết tắt là **SOLID**
 Trích lại nguyên lý DIP từ Wiki:
 >Module cấp cao không nên phụ thuộc vào module cấp thấp. Mà cả 2 nên phụ thuộc vào một lớp Abstraction.
 
@@ -152,8 +152,8 @@ Eureka! Vậy tức là cái Generic Framework mà Wiki đề cập ở đây, c
 ##### ---
 Ok, tóm tắt lại ta có 3 keyword nghe thật to tát: **Dependency Injection**, **Dependency Inversion** và **Inverse of Control**
 - DI giải quyết việc gắn dependency thế nào? (Initializer, Property, Method)
-- DIP giải quyết việc Decoupling thông qua việc chia sẻ lớp Abstract chung.
-- IoC thì giống với Tuyển dụng ý: Bạn không cần phải gọi cho tôi, tôi sẽ gọi cho bạn! [Link](https://en.wikipedia.org/wiki/Inversion_of_control#Overview)
+- DIP giải quyết việc Decoupling thông qua phương pháp trừu tượng hóa giao tiếp giữa các module.
+- IoC thì giống với Bộ phận tuyển dụng ý: Bạn không cần phải gọi cho tôi, tôi sẽ gọi cho bạn! [Link](https://en.wikipedia.org/wiki/Inversion_of_control#Overview)
 
 # 3. Cơ bản về Swinject
 ### Cách cài đặt bằng CocoaPods
@@ -238,8 +238,26 @@ Theo kiểu này, khi Initial View Controller được hệ thống khởi tạo
 # 4. Ứng dụng Swinject trong kiến trúc MVVM
 Sau khi tham khảo từ [một loạt bài hướng dẫn](https://yoichitgy.github.io) của chính tác giả của thư viện Swinject, cũng như project mẫu, mình đã implement lại một project demo có sử dụng Swinject và kiến trúc MVVM. Mọi người có thể [download](https://github.com/muzix/swinject-demo/releases) hoặc [clone project](https://github.com/muzix/swinject-demo) về để xem.
 
-Dependency trong kiến trúc MVVM nó đại khái như thế này:
+Dependency trong kiến trúc **M**odel - **V**iew - **V**iew**M**odel nó đại khái như thế này:
 
-`ViewControler (View) ----> ViewModel ----> Model ----> Network
+#### `ViewControler (View)` ----> `ViewModel` ----> `Model`
 
 Nhiệm vụ của chúng ta chỉ là sử dụng Swinject Container để khai báo các Dependency và lắp ghép lại thôi. Giống xếp hình lego ý mà!
+
+Chi tiết về cách thức implement, mọi người có thể tham khảo thêm trong source code của project demo.
+
+# 5. HAPPY CODER
+Okay, vậy là ta đã tua qua một lượt các kiến thức và học được cách sử dụng cơ bản framework Swinject rồi. Nhờ có Swinject, việc áp dụng các nguyên lý thiết kế phần mềm, design pattern vào thực tế trở nên dễ dàng hơn rất nhiều.
+
+Tuy nhiên, để đào sâu và nắm được nhiều tính năng của Swinject chắc ta sẽ cần một bài viết khác chi tiết hơn. Đồng thời để dựng được một bộ khung app siêu siêu chuẩn theo MVVM hay VIPER thì ta sẽ cần tới nhiều phép thuật khác, ví dụ như: ReactiveSwift, Redux, Texture ... Ok ok stop here, i'm crying! Keep it super simple right? :)
+
+**_Happy Coding!_**
+
+#### Tài liệu tham khảo
+* [https://yoichitgy.github.io](https://yoichitgy.github.io)
+* [https://github.com/Swinject/Swinject](https://github.com/Swinject/Swinject)
+* [https://github.com/Swinject/SwinjectMVVMExample](https://github.com/Swinject/SwinjectMVVMExample)
+* [https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))
+* [https://stackoverflow.com/questions/3912504/difference-between-inversion-of-control-dependency-inversion-and-decouplin](https://stackoverflow.com/questions/3912504/difference-between-inversion-of-control-dependency-inversion-and-decouplin)
+
+
